@@ -1,0 +1,91 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2017 Neo
+-->
+<html lang="en">
+<head>
+  <title>neocloud-combo demo</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+
+  <link rel="import" href="../neocloud-products-grid.html">
+
+  <style is="custom-style" include="demo-pages-shared-styles">
+    demo-snippet {
+      --demo-snippet-demo: {
+        background: var(--paper-grey-200);
+        padding: 8px;
+      };
+      --demo-snippet-code: {
+        max-height: 300px;
+      };
+    }
+
+    paper-card {
+      width: 100%;
+    }
+
+    .horizontal {
+      @apply(--layout-horizontal);
+    }
+
+    .justified {
+      @apply(--layout-justified);
+    }
+
+    .amber {
+      background: var(--paper-amber-900);
+    }
+
+    .lime {
+      background: var(--paper-lime-500);
+    }
+
+    .cyan {
+      background: var(--paper-cyan-500);
+    }
+
+    .dark {
+      background: var(--paper-blue-grey-500);
+    }
+    paper-card.dark, paper-card.amber, paper-card.lime, paper-card.cyan {
+      color: white;
+      --paper-card-header-color: white;
+    }
+
+    paper-checkbox {
+      display: block;
+      margin-bottom: 4px;
+      --paper-checkbox-label-color: white;
+      --paper-checkbox-unchecked-color: white;
+    }
+
+    paper-icon-button {
+      color: var(--paper-grey-600);
+    }
+
+    paper-icon-button.white {
+      color: white !important;
+    }
+  </style>
+
+</head>
+<body unresolved>
+  <body unresolved>
+    <div class="vertical-section-container centered and writer to storage">
+      <h3>Polymer component for display a list of items.</h3>
+      <demo-snippet>
+        <template>
+          <neocloud-products-grid></neocloud-products-grid>
+        </template>
+      </demo-snippet>
+    </div>
+</body>
+</html>

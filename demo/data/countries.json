@@ -1,0 +1,26 @@
+{
+  "apiVersion": "",
+  "data":[
+    {
+      "code": "DEU",
+      "name": "Alemania"
+    },
+    {
+      "code": "ESP",
+      "name": "España"
+    },
+    {
+      "code": "USA",
+      "name": "Estados Unidos"
+    },
+    {
+      "code": "FRA",
+      "name": "Francia"
+    },
+    {
+      "code": "GBR",
+      "name": "Reino Unido"
+    }
+  ],
+  "error": null
+}
