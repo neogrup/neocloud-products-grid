@@ -74,13 +74,25 @@ Copyright (c) 2017 Neo
     paper-icon-button.white {
       color: white !important;
     }
+
+    .container{
+      background-color: #EEEEEE;
+    }
   </style>
 
 </head>
 <body unresolved>
   <body unresolved>
-    <div class="vertical-section-container centered and writer to storage">
-      <neocloud-products-grid></neocloud-products-grid>
+    <div class="container">
+      <neocloud-products-grid
+              url="data/products"
+              url-translate="/demo/data/translations.json"
+              language="es">
+      </neocloud-products-grid>
     </div>
+    <script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
+    //]]></script>
+
 </body>
 </html>

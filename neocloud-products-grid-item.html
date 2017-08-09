@@ -1,0 +1,153 @@
+<!--
+@license
+Copyright (c) 2017 Neo
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../iron-list/iron-list.html">
+<link rel="import" href="../paper-ripple/paper-ripple.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-image/iron-image.html">
+
+<dom-module id="neocloud-products-grid-item">
+  <template>
+    <style>
+      :host{
+        --item-content-background: url("/demo/images/producto-default.jpg");
+      }
+
+      .itemContent {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin: 8px;
+        cursor: pointer;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+        background-image: var(--item-content-background);
+
+
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .itemContent > iron-image {
+        @apply (--layout-flex);
+      }
+
+      .itemContentName {
+        width: 100%;
+        text-align: center;
+      }
+
+      @media (max-width: 800px) {
+        .itemContainer {
+          width: calc(50% - 16px);
+        }
+      }
+      @media (max-width: 400px) {
+        .itemContainer {
+          width: 100%;
+        }
+      }
+
+      .parentFolder{
+        background-color: orange;
+      }
+
+      .folder{
+        background-color: yellow;
+      }
+
+      .product{
+        background-color: blue;
+      }
+    </style>
+
+    <div class="itemContainer">
+      <template is="dom-if" if="[[_checkType('parentFolder', item.type)]]">
+        <div class="itemContent parentFolder" on-tap="_selectItem">
+          <paper-ripple></paper-ripple>
+          <div class="itemContentName">[[item.name]]</div>
+        </div>
+      </template>
+
+      <template is="dom-if" if="[[_checkType('folder', item.type)]]">
+        <div class="itemContent folder" on-tap="_selectItem">
+          <paper-ripple></paper-ripple>
+          <div class="itemContentName">[[item.name]]</div>
+        </div>
+      </template>
+
+
+      <template is="dom-if" if="[[_checkType('product', item.type)]]">
+        <div class="itemContent product" on-tap="_selectItem">
+          <paper-ripple></paper-ripple>
+          <!--<iron-image style="width:100%; height:80%;" sizing="cover"-->
+                      <!--src="[[item.urlImage]]"></iron-image>-->
+          <div class="itemContentName">[[item.name]]</div>
+        </div>
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'neocloud-products-grid-item',
+
+      behaviors: [
+        Polymer.AppLocalizeBehavior
+      ],
+
+      properties: {
+        item: {
+          type: Object,
+          value: {
+            code: "",
+            name: "",
+            type: "",
+            urlImage: "",
+            bgColor: "red"
+          },
+          observer: '_itemChanged'
+
+        },
+      },
+
+      _itemChanged: function(){
+        this.customStyle['--item-content-background'] =  'url(' +  this.item.urlImage + ')' ;
+        this.updateStyles();
+
+      },
+
+      _selectItem: function() {
+        switch (this.item.type) {
+          case "parentFolder":
+            this.fire('parent-folder-selected');
+            break;
+          case "folder":
+            this.fire('folder-selected', this.item);
+            break;
+          default:
+            this.fire('product-selected', this.item);
+            break;
+        }
+      },
+
+      _checkType: function(type, itemType){
+        return (type==itemType);
+      }
+    });
+
+
+  </script>
+</dom-module>

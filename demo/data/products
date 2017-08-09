@@ -1,0 +1,163 @@
+{
+  "apiVersion": "",
+  "data":[
+    {
+      "code": "",
+      "name": "Pizzas",
+      "type": "folder",
+      "urlImage": "",
+      "bgColor": "yellow",
+      "content": [
+        {
+          "code": "1",
+          "name": "4 estaciones",
+          "type": "product",
+          "urlImage": "/demo/images/4estaciones.png",
+          "bgColor": "blue"
+        },
+        {
+          "code": "2",
+            "name": "4 quesos",
+            "type": "product",
+            "urlImage": "/demo/images/4quesos.png",
+            "bgColor": "blue"
+        },
+        {
+          "code": "3",
+            "name": "Barbacoa",
+            "type": "product",
+            "urlImage": "/demo/images/barbacoa.png",
+            "bgColor": "blue"
+        },
+        {
+          "code": "4",
+            "name": "Calzone",
+            "type": "product",
+            "urlImage": "/demo/images/calzone.png",
+            "bgColor": "blue"
+        }
+      ]
+    },
+    {
+      "code": "",
+      "name": "Bebidas",
+      "type": "folder",
+      "urlImage": "",
+      "bgColor": "yellow",
+      "content": [
+        {
+          "code": "",
+          "name": "Aguas",
+          "type": "folder",
+          "urlImage": "",
+          "bgColor": "yellow",
+          "content": [
+            {
+              "code": "5",
+              "name": "FontVella",
+              "type": "product",
+              "urlImage": "/demo/images/botellaFontVella.png",
+              "bgColor": "green"
+            },
+            {
+              "code": "6",
+              "name": "Solan Cabras",
+              "type": "product",
+              "urlImage": "/demo/images/botellaSolanCabras.png",
+              "bgColor": "green"
+            },
+            {
+              "code": "7",
+              "name": "Vichy Catalan",
+              "type": "product",
+              "urlImage": "/demo/images/botellaVichyCatalan.png",
+              "bgColor": "green"
+            }
+          ]
+        },
+        {
+          "code": "",
+          "name": "Refrescos",
+          "type": "folder",
+          "urlImage": "",
+          "bgColor": "yellow",
+          "content": [
+            {
+              "code": "8",
+              "name": "Coca Cola",
+              "type": "product",
+              "urlImage": "/demo/images/cocaCola.png",
+              "bgColor": "red"
+            },
+            {
+              "code": "9",
+              "name": "Coca Cola Light",
+              "type": "product",
+              "urlImage": "/demo/images/cocaColaLight.png",
+              "bgColor": "red"
+            },
+            {
+              "code": "10",
+              "name": "coca Cola 0",
+              "type": "product",
+              "urlImage": "/demo/images/cocaColaZero.png",
+              "bgColor": "red"
+            },
+            {
+              "code": "11",
+              "name": "Fanta limón",
+              "type": "product",
+              "urlImage": "/demo/images/FantaLimon.png",
+              "bgColor": "red"
+            },
+            {
+              "code": "12",
+              "name": "Fanta naranja",
+              "type": "product",
+              "urlImage": "/demo/images/FantaNaranja.png",
+              "bgColor": "red"
+            },
+            {
+              "code": "13",
+              "name": "Redbull",
+              "type": "product",
+              "urlImage": "/demo/images/redBull.png",
+              "bgColor": "red"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "",
+      "name": "Cafés",
+      "type": "folder",
+      "urlImage": "",
+      "bgColor": "yellow",
+      "content": [
+        {
+          "code": "14",
+          "name": "Café solo",
+          "type": "product",
+          "urlImage": "/demo/images/cafeSolo.png",
+          "bgColor": "orange"
+        },
+        {
+          "code": "15",
+            "name": "Café con leche",
+            "type": "product",
+            "urlImage": "/demo/images/cafeLeche01.png",
+            "bgColor": "orange"
+        },
+        {
+          "code": "16",
+            "name": "Capuccino",
+            "type": "product",
+            "urlImage": "/demo/images/cappuccino.png",
+            "bgColor": "orange"
+        }
+      ]
+    }
+  ],
+  "error": null
+}

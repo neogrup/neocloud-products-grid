@@ -1,0 +1,154 @@
+<!--
+@license
+Copyright (c) 2017 Neo
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
+<link rel="import" href="../iron-list/iron-list.html">
+
+<link rel="import" href="neocloud-products-grid-item.html">
+
+<dom-module id="neocloud-products-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      iron-list {
+        height: 100vh; /* don't use % values unless the parent element is sized. */
+      }
+    </style>
+    <iron-ajax
+            auto
+            id="getProductsList"
+            url="{{url}}"
+            headers="{{headers}}"
+            params="{{params}}"
+            method="get"
+            handle-as="json"
+            last-response="{{dataProductsList}}"
+            on-error="_handleGetProductsListError"
+            on-response="_handleGetProductsListResponse">
+    </iron-ajax>
+
+
+
+    <iron-list grid>
+      <template>
+        <neocloud-products-grid-item
+                item="[[item]]"
+                on-parent-folder-selected="_parentFolderSelected"
+                on-folder-selected="_folderSelected"
+                on-product-selected="_productSelected">
+        </neocloud-products-grid-item>
+
+
+      </template>
+    </iron-list>
+
+
+
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'neocloud-products-grid',
+
+      behaviors: [
+        Polymer.AppLocalizeBehavior
+      ],
+
+      properties: {
+        language: String,
+        url: {
+          type: String
+        },
+        urlTranslate:{
+          type: String
+        },
+        headers:{
+          type: String
+        },
+        params:{
+          type: Object,
+          value: {}
+        },
+        levels: {
+          type: Array,
+          value: []
+        },
+        currentBranch: {
+          type: Object,
+          value: {}
+        },
+        currentBranchPos: {
+          type: Number,
+          value: 0
+        },
+        currentPos: {
+          type: Number,
+          value: 0
+        }
+      },
+
+      ready: function() {
+      },
+
+
+      _handleGetProductsListResponse: function () {
+        this.levels.push(this.dataProductsList.data);
+        this.$$('iron-list').items = this.levels[this.currentBranchPos];
+      },
+
+      _handleGetProductsListError: function(){
+        console.log("error loading products")
+      },
+
+
+      /**
+       Fired when folder is selected
+       This is useful if you want to wait until
+       the ripple animation finishes to perform some action.
+       @event transitionend
+       Event param: {{node: Object}} detail Contains the animated node.
+       */
+      _parentFolderSelected: function(){
+        this.currentBranchPos--;
+        this.levels.pop();
+        this.$$('iron-list').items = this.levels[this.currentBranchPos];
+
+      },
+
+      _folderSelected: function(item){
+        this.currentBranchPos++;
+        this.levels.push(item.detail.content);
+
+        if (this.levels[this.currentBranchPos][0].type !== "parentFolder") {
+          var parentFolder = {
+            bgcolor: "pink",
+            code: "",
+            name: "...",
+            type: "parentFolder",
+            urlImage: ""
+          }
+          this.levels[this.currentBranchPos].unshift(parentFolder);
+        }
+
+        this.$$('iron-list').items = this.levels[this.currentBranchPos];
+
+      },
+
+      _productSelected: function(item){
+        console.log(item.detail);
+      },
+
+
+    });
+
+
+  </script>
+</dom-module>
