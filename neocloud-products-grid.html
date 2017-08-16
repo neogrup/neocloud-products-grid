@@ -4,7 +4,6 @@ Copyright (c) 2017 Neo
 -->
 
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
 <link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../iron-list/iron-list.html">
 
@@ -15,42 +14,28 @@ Copyright (c) 2017 Neo
     <style>
       :host {
         display: block;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
 
       iron-list {
-        height: 100vh; /* don't use % values unless the parent element is sized. */
+        flex: 1 1 auto;
       }
     </style>
-    <iron-ajax
-            auto
-            id="getProductsList"
-            url="{{url}}"
-            headers="{{headers}}"
-            params="{{params}}"
-            method="get"
-            handle-as="json"
-            last-response="{{dataProductsList}}"
-            on-error="_handleGetProductsListError"
-            on-response="_handleGetProductsListResponse">
-    </iron-ajax>
-
-
 
     <iron-list grid>
       <template>
         <neocloud-products-grid-item
                 item="[[item]]"
                 on-parent-folder-selected="_parentFolderSelected"
+                on-next-button-pressed="_nextButtonPressed"
+                on-previous-button-pressed="_previousButtonPressed"
                 on-folder-selected="_folderSelected"
                 on-product-selected="_productSelected">
         </neocloud-products-grid-item>
-
-
       </template>
     </iron-list>
-
-
-
 
   </template>
 
@@ -63,83 +48,235 @@ Copyright (c) 2017 Neo
       ],
 
       properties: {
-        language: String,
-        url: {
-          type: String
+        data: {
+          type: Object,
+          value: [],
+          observer: '_dataChanged'
         },
+        language: String,
         urlTranslate:{
           type: String
         },
-        headers:{
-          type: String
-        },
-        params:{
-          type: Object,
-          value: {}
-        },
+        
+        /**
+         * All folder and products
+         */
         levels: {
           type: Array,
           value: []
         },
-        currentBranch: {
+        level: {
+          type: Array,
+          value: []
+        },
+        currentLevel: {
+          type: Number,
+          value: 0
+        },
+        currentLevelIndex: {
+          type: Number,
+          value: 0
+        },
+        currentLevelPage: {
+          type: Number,
+          value: 0
+        },
+        limitProductsPerLevel: {
+          type: Number,
+          value: 5
+        },
+        showParentFolder: {
+          type: Boolean,
+          value: false
+        },
+        parentFolder: {
           type: Object,
-          value: {}
-        },
-        currentBranchPos: {
-          type: Number,
-          value: 0
-        },
-        currentPos: {
-          type: Number,
-          value: 0
-        }
-      },
-
-      ready: function() {
-      },
-
-
-      _handleGetProductsListResponse: function () {
-        this.levels.push(this.dataProductsList.data);
-        this.$$('iron-list').items = this.levels[this.currentBranchPos];
-      },
-
-      _handleGetProductsListError: function(){
-        console.log("error loading products")
-      },
-
-
-      /**
-       Fired when folder is selected
-       This is useful if you want to wait until
-       the ripple animation finishes to perform some action.
-       @event transitionend
-       Event param: {{node: Object}} detail Contains the animated node.
-       */
-      _parentFolderSelected: function(){
-        this.currentBranchPos--;
-        this.levels.pop();
-        this.$$('iron-list').items = this.levels[this.currentBranchPos];
-
-      },
-
-      _folderSelected: function(item){
-        this.currentBranchPos++;
-        this.levels.push(item.detail.content);
-
-        if (this.levels[this.currentBranchPos][0].type !== "parentFolder") {
-          var parentFolder = {
-            bgcolor: "pink",
+          value: {
+            backgroundColor: "pink",
             code: "",
             name: "...",
             type: "parentFolder",
             urlImage: ""
           }
-          this.levels[this.currentBranchPos].unshift(parentFolder);
+        },
+        showNextButton: {
+          type: Boolean,
+          value: false
+        },
+        nextButton: {
+          type: Object,
+          value: {
+            backgroundColor: "yellow",
+            code: "",
+            name: "Siguiente",
+            type: "nextButton",
+            urlImage: ""
+          }
+        },
+        showPreviousButton: {
+          type: Boolean,
+          value: false
+        },
+        previousButton: {
+          type: Object,
+          value: {
+            backgroundColor: "yellow",
+            code: "",
+            name: "Anterior",
+            type: "previousButton",
+            urlImage: ""
+          }
+        },
+
+      },
+
+      _dataChanged: function(){
+        /* TODO: Calculate limitProductsPerLevel */
+        this.showParentFolder = false;
+        this.showPreviousButton = false;
+        this.currentLevel = 0;
+        this.currentLevelPage = 0;
+        this.currentLevelIndex = 0;
+        if (this.data.length > 0){
+          this.levels.push(this.data);
+          if (this.limitProductsPerLevel != 0 ) {
+            if (this.levels[this.currentLevel].length > this.limitProductsPerLevel) {
+              this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
+              this.currentLevelIndex = this.level.length;
+              this.level.push(this.nextButton);
+              this.showNextButton = true;
+            } else{
+              this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel);
+              this.showNextfalse = true;
+            }
+          }
+          else {
+            this.level = this.levels[this.currentLevel];
+
+          }
+          this.$$('iron-list').items = this.level;
         }
 
-        this.$$('iron-list').items = this.levels[this.currentBranchPos];
+        console.log('this.currentLevelIndex: ' + this.currentLevelIndex);
+      },
 
+
+      _parentFolderSelected: function(){
+        this.showPreviousButton = false;
+        this.currentLevel--;
+        this.currentLevelIndex = 0;
+        this.currentLevelPage = 0;
+        // Remove the last element of an array:
+        this.levels.pop();
+
+        if (this.limitProductsPerLevel != 0 ) {
+          if (this.levels[this.currentLevel].length > this.limitProductsPerLevel) {
+            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
+            this.currentLevelIndex = this.level.length;
+            this.level.push(this.nextButton);
+            this.showNextButton = true;
+          } else{
+            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel);
+            this.showNextButton = false;
+          }
+        }
+        else{
+          this.level =  this.levels[this.currentLevel];
+        }
+
+        if (this.currentLevel > 0){
+          this.level.unshift(this.parentFolder);
+          this.showParentFolder = true;
+        }
+        this.$$('iron-list').items = this.level;
+      },
+
+
+      _previousButtonPressed: function(){
+        this.showNextButton = true;
+        this.currentLevelPage--;
+
+        console.log('-------------------------------------------------------------')
+        console.log('Previous currentLevelIndex before: ' + this.currentLevelIndex);
+
+
+        if ((this.currentLevelIndex + this.limitProductsPerLevel-1) >= this.levels[this.currentLevel].length){
+          console.log('test 1');
+          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex - this.limitProductsPerLevel-1, this.currentLevelIndex - this.showNextButton - this.showPreviousButton - this.showParentFolder);
+          console.log(this.currentLevelIndex - this.showNextButton - this.showPreviousButton - this.showParentFolder);
+          this.currentLevelIndex = this.level.length ;
+        }
+        else{
+          console.log('test 2');
+          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 3);
+          this.level.unshift(this.previousButton);
+
+        }
+
+        if (this.currentLevelPage == 0 && this.currentLevel != 0) {
+          this.level.unshift(this.parentFolder);
+        }
+
+
+
+        this.level.push(this.nextButton);
+        this.$$('iron-list').items = this.level;
+
+        console.log('Previous currentLevelIndex after: ' + this.currentLevelIndex);
+      },
+
+
+      _nextButtonPressed: function(){
+        this.showParentFolder = false;
+        this.showPreviousButton = true;
+        this.currentLevelPage++;
+
+        console.log('-------------------------------------------------------------')
+        console.log('Next currentLevelIndex before: ' + this.currentLevelIndex);
+
+
+        if ((this.currentLevelIndex + this.limitProductsPerLevel-1) >= this.levels[this.currentLevel].length){
+          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
+          this.currentLevelIndex = this.currentLevelIndex + this.level.length;
+          this.showNextButton = false;
+        }
+        else{
+          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 2);
+          this.level.push(this.nextButton);
+          this.showNextButton = true;
+          this.currentLevelIndex = this.currentLevelIndex + this.level.length - 1;
+        }
+
+
+        this.level.unshift(this.previousButton);
+        this.$$('iron-list').items = this.level;
+
+        console.log('Next currentLevelIndex after: ' + this.currentLevelIndex);
+      },
+
+
+      _folderSelected: function(item){
+        this.showParentFolder = true;
+        this.currentLevel++;
+        this.currentLevelIndex = 0;
+        this.currentLevelPage = 0;
+        this.levels.push(item.detail.content);
+
+        if (this.limitProductsPerLevel != 0 ) {
+          if (this.levels[this.currentLevel].length >= this.limitProductsPerLevel) {
+            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 2);
+            this.currentLevelIndex = this.level.length;
+            this.showNextButton = true;
+            this.level.push(this.nextButton);
+          } else{
+            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
+          }
+        }
+        else{
+          this.level =  this.levels[this.currentLevel];
+        }
+        this.level.unshift(this.parentFolder);
+        this.$$('iron-list').items = this.level;
       },
 
       _productSelected: function(item){

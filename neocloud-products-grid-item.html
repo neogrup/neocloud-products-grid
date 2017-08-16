@@ -15,15 +15,18 @@ Copyright (c) 2017 Neo
   <template>
     <style>
       :host{
-        --item-content-background: url("/demo/images/producto-default.jpg");
+        --item-content-background-image: url("/demo/images/producto-default.jpg");
+        --item-content-background-color: "#00FF00";
       }
 
       .itemContent {
         position: relative;
         width: 100px;
         height: 100px;
-        margin: 8px;
+        margin: 2px;
+        border: 1px solid black;
         cursor: pointer;
+
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
         -khtml-user-select: none; /* Konqueror HTML */
@@ -32,8 +35,8 @@ Copyright (c) 2017 Neo
         user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 
-        background-image: var(--item-content-background);
-
+        background-image: var(--item-content-background-image);
+        background-color: var(--item-content-background-color);
 
         background-repeat: no-repeat;
         background-size: cover;
@@ -44,8 +47,22 @@ Copyright (c) 2017 Neo
       }
 
       .itemContentName {
-        width: 100%;
+        padding: 2px;
+        min-height: 20px;
+        max-height: 40px;
+        line-height: 20px;
+        vertical-align: middle;
+        width: 96px;
         text-align: center;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.7) 100%, rgba(0,0,0,0.7) 100%);
+        color: white;
+        font-size: 14px;
+        overflow: hidden;
+
       }
 
       @media (max-width: 800px) {
@@ -59,16 +76,28 @@ Copyright (c) 2017 Neo
         }
       }
 
+      .nextButton{
+        /*background-image: url("/demo/images/folderOpen.png");*/
+        /*background-color: orange;*/
+      }
+
+      .previousButton{
+        /*background-image: url("/demo/images/folderOpen.png");*/
+        /*background-color: orange;*/
+      }
+
       .parentFolder{
-        background-color: orange;
+        background-image: url("/demo/images/folderOpen.png");
+        /*background-color: orange;*/
       }
 
       .folder{
-        background-color: yellow;
+        background-image: url("/demo/images/folderclosed.png");
+        /*background-color: yellow;*/
       }
 
       .product{
-        background-color: blue;
+        /*background-color: blue;*/
       }
     </style>
 
@@ -80,13 +109,31 @@ Copyright (c) 2017 Neo
         </div>
       </template>
 
+      <template is="dom-if" if="[[_checkType('nextButton', item.type)]]">
+        <div class="itemContent nextButton" on-tap="_selectItem">
+          <paper-ripple></paper-ripple>
+          <!--<iron-image style="width:100%; height:80%;" sizing="cover"-->
+          <!--src="[[item.urlImage]]"></iron-image>-->
+          <div class="itemContentName">[[item.name]]</div>
+        </div>
+      </template>
+
+      <template is="dom-if" if="[[_checkType('previousButton', item.type)]]">
+        <div class="itemContent previousButton" on-tap="_selectItem">
+          <paper-ripple></paper-ripple>
+          <!--<iron-image style="width:100%; height:80%;" sizing="cover"-->
+          <!--src="[[item.urlImage]]"></iron-image>-->
+          <div class="itemContentName">[[item.name]]</div>
+        </div>
+      </template>
+
+
       <template is="dom-if" if="[[_checkType('folder', item.type)]]">
         <div class="itemContent folder" on-tap="_selectItem">
           <paper-ripple></paper-ripple>
           <div class="itemContentName">[[item.name]]</div>
         </div>
       </template>
-
 
       <template is="dom-if" if="[[_checkType('product', item.type)]]">
         <div class="itemContent product" on-tap="_selectItem">
@@ -124,7 +171,29 @@ Copyright (c) 2017 Neo
       },
 
       _itemChanged: function(){
-        this.customStyle['--item-content-background'] =  'url(' +  this.item.urlImage + ')' ;
+        switch (this.item.type) {
+          case "parentFolder":
+            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
+            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            break;
+          case "nextButton":
+            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
+            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            break;
+          case "previousButton":
+            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
+            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            break;
+          case "folder":
+            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
+            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            break;
+          default:
+            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
+            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            break;
+        }
+
         this.updateStyles();
 
       },
@@ -133,6 +202,12 @@ Copyright (c) 2017 Neo
         switch (this.item.type) {
           case "parentFolder":
             this.fire('parent-folder-selected');
+            break;
+          case "nextButton":
+            this.fire('next-button-pressed');
+            break;
+          case "previousButton":
+            this.fire('previous-button-pressed');
             break;
           case "folder":
             this.fire('folder-selected', this.item);

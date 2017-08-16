@@ -12,84 +12,55 @@ Copyright (c) 2017 Neo
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
 
+  <link rel="import" href="../../polymer/polymer.html">
+  <link rel="import" href="../../iron-ajax/iron-ajax.html">
+
   <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
   <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
 
   <link rel="import" href="../neocloud-products-grid.html">
 
-  <style is="custom-style" include="demo-pages-shared-styles">
-    demo-snippet {
-      --demo-snippet-demo: {
-        background: var(--paper-grey-200);
-        padding: 8px;
-      };
-      --demo-snippet-code: {
-        max-height: 300px;
-      };
-    }
 
-    paper-card {
-      width: 100%;
-    }
-
-    .horizontal {
-      @apply(--layout-horizontal);
-    }
-
-    .justified {
-      @apply(--layout-justified);
-    }
-
-    .amber {
-      background: var(--paper-amber-900);
-    }
-
-    .lime {
-      background: var(--paper-lime-500);
-    }
-
-    .cyan {
-      background: var(--paper-cyan-500);
-    }
-
-    .dark {
-      background: var(--paper-blue-grey-500);
-    }
-    paper-card.dark, paper-card.amber, paper-card.lime, paper-card.cyan {
-      color: white;
-      --paper-card-header-color: white;
-    }
-
-    paper-checkbox {
-      display: block;
-      margin-bottom: 4px;
-      --paper-checkbox-label-color: white;
-      --paper-checkbox-unchecked-color: white;
-    }
-
-    paper-icon-button {
-      color: var(--paper-grey-600);
-    }
-
-    paper-icon-button.white {
-      color: white !important;
-    }
-
-    .container{
-      background-color: #EEEEEE;
-    }
-  </style>
 
 </head>
 <body unresolved>
-  <body unresolved>
+  <dom-module id="neocloud-products-grid-demo">
+  <template>
+    <style>
+      .container{
+        height: 300px;
+        background-color: #0b97c4;
+      }
+    </style>
+
+    <iron-ajax
+            auto
+            id="getProductsList"
+            url="data/products"
+            method="get"
+            handle-as="json"
+            last-response="{{dataProductsList}}">
+    </iron-ajax>
+
     <div class="container">
       <neocloud-products-grid
-              url="data/products"
+              data="[[dataProductsList.data]]"
               url-translate="/demo/data/translations.json"
               language="es">
       </neocloud-products-grid>
     </div>
+
+    </template>
+    <script>
+      window.addEventListener('WebComponentsReady', function() {
+        Polymer({ is: 'neocloud-products-grid-demo' });
+      });
+    </script>
+  </dom-module>
+  <neocloud-products-grid-demo></neocloud-products-grid-demo>
+
+
+
     <script id="__bs_script__">//<![CDATA[
     document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
     //]]></script>
