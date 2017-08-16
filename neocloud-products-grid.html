@@ -73,6 +73,14 @@ Copyright (c) 2017 Neo
           type: Number,
           value: 0
         },
+        levelIndexFrom: {
+          type: Number,
+          value: 0
+        },
+        levelIndexTo: {
+          type: Number,
+          value: 0
+        },
         currentLevelIndex: {
           type: Number,
           value: 0
@@ -132,22 +140,19 @@ Copyright (c) 2017 Neo
 
       _dataChanged: function(){
         /* TODO: Calculate limitProductsPerLevel */
-        this.showParentFolder = false;
-        this.showPreviousButton = false;
         this.currentLevel = 0;
         this.currentLevelPage = 0;
-        this.currentLevelIndex = 0;
+        this.levelIndexFrom = 0;
         if (this.data.length > 0){
           this.levels.push(this.data);
           if (this.limitProductsPerLevel != 0 ) {
             if (this.levels[this.currentLevel].length > this.limitProductsPerLevel) {
-              this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
-              this.currentLevelIndex = this.level.length;
+              this.levelIndexTo = this.levelIndexTo + this.limitProductsPerLevel - 1 - 1;
+              this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
               this.level.push(this.nextButton);
-              this.showNextButton = true;
             } else{
-              this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel);
-              this.showNextfalse = true;
+              this.levelIndexTo = this.levels[this.currentLevel].length - 1;
+              this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
             }
           }
           else {
@@ -156,28 +161,25 @@ Copyright (c) 2017 Neo
           }
           this.$$('iron-list').items = this.level;
         }
-
-        console.log('this.currentLevelIndex: ' + this.currentLevelIndex);
+        console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+this.levelIndexFrom+' - '+this.levelIndexTo);
       },
 
 
       _parentFolderSelected: function(){
-        this.showPreviousButton = false;
         this.currentLevel--;
-        this.currentLevelIndex = 0;
         this.currentLevelPage = 0;
+        this.levelIndexFrom = 0;
         // Remove the last element of an array:
         this.levels.pop();
 
         if (this.limitProductsPerLevel != 0 ) {
           if (this.levels[this.currentLevel].length > this.limitProductsPerLevel) {
-            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
-            this.currentLevelIndex = this.level.length;
+            this.levelIndexTo = this.levelIndexFrom + this.limitProductsPerLevel - 1 - 1;
+            this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
             this.level.push(this.nextButton);
-            this.showNextButton = true;
           } else{
-            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel);
-            this.showNextButton = false;
+            this.levelIndexTo = this.levels[this.currentLevel].length - 1;
+            this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
           }
         }
         else{
@@ -192,84 +194,87 @@ Copyright (c) 2017 Neo
       },
 
 
-      _previousButtonPressed: function(){
-        this.showNextButton = true;
-        this.currentLevelPage--;
+      _nextButtonPressed: function(){
+        this.currentLevelPage++;
+        this.levelIndexFrom = this.levelIndexTo + 1;
+        this.showNextButton = false;
+        this.showParentFolder = false;
+        this.showPreviousButton = true;
 
-        console.log('-------------------------------------------------------------')
-        console.log('Previous currentLevelIndex before: ' + this.currentLevelIndex);
-
-
-        if ((this.currentLevelIndex + this.limitProductsPerLevel-1) >= this.levels[this.currentLevel].length){
-          console.log('test 1');
-          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex - this.limitProductsPerLevel-1, this.currentLevelIndex - this.showNextButton - this.showPreviousButton - this.showParentFolder);
-          console.log(this.currentLevelIndex - this.showNextButton - this.showPreviousButton - this.showParentFolder);
-          this.currentLevelIndex = this.level.length ;
-        }
-        else{
-          console.log('test 2');
-          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 3);
-          this.level.unshift(this.previousButton);
-
+        if ( this.levels[this.currentLevel].length - this.levelIndexFrom <= this.limitProductsPerLevel - 1){ //-1 del previous //ulyima página
+          this.levelIndexTo = this.levels[this.currentLevel].length - 1;
+        } else { //necesario next
+          this.levelIndexTo = this.levelIndexFrom + this.limitProductsPerLevel - 1 - 1 - 1; //-1 previous -1 next -1 0based
+          this.showNextButton = true;
         }
 
-        if (this.currentLevelPage == 0 && this.currentLevel != 0) {
-          this.level.unshift(this.parentFolder);
+        console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+this.levelIndexFrom+' - '+this.levelIndexTo);
+
+        this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
+        this.level.unshift(this.previousButton);
+        if (this.showNextButton) {
+          this.level.push(this.nextButton);
         }
-
-
-
-        this.level.push(this.nextButton);
         this.$$('iron-list').items = this.level;
 
-        console.log('Previous currentLevelIndex after: ' + this.currentLevelIndex);
       },
 
 
-      _nextButtonPressed: function(){
+
+      _previousButtonPressed: function(){
+        this.currentLevelPage--;
+        this.levelIndexTo = this.levelIndexFrom - 1;
+        this.showNextButton = true;
         this.showParentFolder = false;
-        this.showPreviousButton = true;
-        this.currentLevelPage++;
+        this.showPreviousButton = false;
 
-        console.log('-------------------------------------------------------------')
-        console.log('Next currentLevelIndex before: ' + this.currentLevelIndex);
-
-
-        if ((this.currentLevelIndex + this.limitProductsPerLevel-1) >= this.levels[this.currentLevel].length){
-          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
-          this.currentLevelIndex = this.currentLevelIndex + this.level.length;
-          this.showNextButton = false;
+        if (this.currentLevelPage>0){
+          this.showPreviousButton = true;
+        } else {
+          if (this.currentLevel>0) {
+            this.showParentFolder = true;
+          }
         }
-        else{
-          this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 2);
+
+        if ( this.showParentFolder || this.showPreviousButton){
+          this.levelIndexFrom = this.levelIndexTo - (this.limitProductsPerLevel - 2) + 1; //-2 per parent/previous i next, +1 0 based
+          if (this.levelIndexFrom<0) this.levelIndexFrom = 0;
+        } else { //necesario next
+          this.levelIndexFrom = 0;
+        }
+
+        console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+this.levelIndexFrom+' - '+this.levelIndexTo);
+
+        this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
+        if (this.showPreviousButton) {
+          this.level.unshift(this.previousButton);
+        }
+        if (this.showParentFolder) {
+          this.level.unshift(this.parentFolder);
+        }
+        if (this.showNextButton) {
           this.level.push(this.nextButton);
-          this.showNextButton = true;
-          this.currentLevelIndex = this.currentLevelIndex + this.level.length - 1;
         }
-
-
-        this.level.unshift(this.previousButton);
         this.$$('iron-list').items = this.level;
-
-        console.log('Next currentLevelIndex after: ' + this.currentLevelIndex);
       },
 
 
       _folderSelected: function(item){
-        this.showParentFolder = true;
         this.currentLevel++;
-        this.currentLevelIndex = 0;
         this.currentLevelPage = 0;
+        this.levelIndexFrom = 0;
         this.levels.push(item.detail.content);
 
         if (this.limitProductsPerLevel != 0 ) {
-          if (this.levels[this.currentLevel].length >= this.limitProductsPerLevel) {
-            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 2);
-            this.currentLevelIndex = this.level.length;
-            this.showNextButton = true;
+
+          if (this.levels[this.currentLevel].length > this.limitProductsPerLevel - 1) {
+            this.levelIndexTo = this.limitProductsPerLevel - 1 - 1 - 1; //-1 de 0 based --1 paremnt folder -1 next
+            console.log(this.levelIndexTo);
+            this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1); //+1 de operativa slice
             this.level.push(this.nextButton);
           } else{
-            this.level = this.levels[this.currentLevel].slice(this.currentLevelIndex, this.currentLevelIndex + this.limitProductsPerLevel - 1);
+            this.levelIndexTo = this.levels[this.currentLevel].length - 1;
+            this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
           }
         }
         else{
@@ -277,6 +282,7 @@ Copyright (c) 2017 Neo
         }
         this.level.unshift(this.parentFolder);
         this.$$('iron-list').items = this.level;
+        console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+this.levelIndexFrom+' - '+this.levelIndexTo);
       },
 
       _productSelected: function(item){
