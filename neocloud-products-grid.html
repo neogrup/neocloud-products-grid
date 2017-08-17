@@ -20,8 +20,10 @@ Copyright (c) 2017 Neo
       }
 
       ul.breadcrumb {
-        /*padding: 10px 16px;*/
-        padding: 5px;
+        padding: 0 10px;
+        margin: 4px;
+        height: 20px;
+        line-height: 20px;
         list-style: none;
         font-size: 17px;
         border-bottom: 1px solid black;
@@ -30,6 +32,13 @@ Copyright (c) 2017 Neo
       /* Display list items side by side */
       ul.breadcrumb li {
         display: inline;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
       }
 
       ul.breadcrumb li:last-child {
@@ -56,9 +65,9 @@ Copyright (c) 2017 Neo
 
     <template is="dom-if" if="[[breadcrumb]]">
       <ul class="breadcrumb">
-      <template is="dom-repeat" items="[[breadcrumbList]]">
-        <li ><span on-tap="_selectFolder">[[item.name]]</span></li>
-      </template>
+        <template is="dom-repeat" items="[[breadcrumbList]]">
+          <li ><span on-tap="_selectFolder">[[item.name]]</span></li>
+        </template>
         <li>{{localize('PRODUCTS_GRID_PAGE')}} [[currentLevelPageBreadcrumb]] / [[currentLevelTotalPages]]</li>
       </ul>
     </template>
@@ -94,9 +103,6 @@ Copyright (c) 2017 Neo
           observer: '_dataChanged'
         },
         language: String,
-        urlTranslate:{
-          type: String
-        },
         dimension: {
           type: Number,
           value: 100,
@@ -182,14 +188,16 @@ Copyright (c) 2017 Neo
           type: Array,
           value: [],
           notify: true
+        },
+        isPaginated: {
+          type: Boolean,
+          value: false
         }
-
       },
 
       ready: function() {
-
         this.useKeyIfMissing = true;
-        this.loadResources(this.resolveUrl(this.urlTranslate));
+        this.loadResources(this.resolveUrl('static/translations.json'));
       },
 
       attached: function() {
@@ -201,15 +209,19 @@ Copyright (c) 2017 Neo
       },
 
       gridResize: function(){
-        console.log(this.offsetWidth);
-        console.log(this.offsetHeight);
-
-        var containerSize = this.offsetWidth * this.offsetHeight
-        var itemSize = (this.dimension + 3) * (this.dimension + 3);
-        console.log(Math.trunc(containerSize / itemSize));
-        this.limitProductsPerLevel = Math.trunc(containerSize / itemSize);
-
-        this.$$('iron-list').fire('iron-resize');
+        if (this.isPaginated) {
+          var h = this.offsetHeight;
+//          console.log('width '+this.offsetWidth+' height '+this.offsetHeight+ ' dimension '+this.dimension);
+          var cols = Math.trunc(this.offsetWidth / (this.dimension + 8));
+          if (this.breadcrumb){
+            h = h - 28;
+          }
+          var rows = Math.trunc(h / (this.dimension + 4));
+          this.limitProductsPerLevel = cols*rows;
+          this.$$('iron-list').fire('iron-resize');
+        } else {
+          this.limitProductsPerLevel = 0;
+        }
 
       },
 
@@ -218,16 +230,16 @@ Copyright (c) 2017 Neo
       },
 
       _setCurrentLevelTotalPages: function(){
-         if (this.levels[this.currentLevel]) {
-           if (this.limitProductsPerLevel != 0)
-             if (this.levels[this.currentLevel].length % (this.limitProductsPerLevel - 2) > 1) {
-               this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2)) + 1;
-             } else {
-               this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2));
-             }
-         } else {
-           this.currentLevelTotalPages = 1;
-         }
+        if (this.levels[this.currentLevel]) {
+          if (this.limitProductsPerLevel != 0)
+            if (this.levels[this.currentLevel].length % (this.limitProductsPerLevel - 2) > 1) {
+              this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2)) + 1;
+            } else {
+              this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2));
+            }
+        } else {
+          this.currentLevelTotalPages = 1;
+        }
       },
 
       _dataChanged: function(){
@@ -387,9 +399,7 @@ Copyright (c) 2017 Neo
 //        console.log(this.breadcrumbList);
       },
 
-      _productSelected: function(item){
-        console.log(item.detail);
-      },
+      _productSelected: function(item){}
 
 
     });
