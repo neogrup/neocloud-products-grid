@@ -13,14 +13,14 @@
           "name": "4 estaciones",
           "type": "product",
           "urlImage": "",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "2",
             "name": "4 quesos",
             "type": "product",
             "urlImage": "/demo/images/4quesos.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "3",
@@ -34,14 +34,14 @@
           "name": "Calzone",
           "type": "product",
           "urlImage": "",
-          "backgroundColor": "red"
+          "backgroundColor": "#EF9A9A"
         },
         {
           "code": "5",
           "name": "prueba",
           "type": "product",
           "urlImage": "",
-          "backgroundColor": "red"
+          "backgroundColor": "#EF9A9A"
         }
       ]
     },
@@ -94,42 +94,42 @@
               "name": "Coca Cola",
               "type": "product",
               "urlImage": "/demo/images/cocaCola.png",
-              "backgroundColor": "red"
+              "backgroundColor": "#EF9A9A"
             },
             {
               "code": "9",
               "name": "Coca Cola Light edgar",
               "type": "product",
               "urlImage": "/demo/images/cocaColaLight.png",
-              "backgroundColor": "red"
+              "backgroundColor": "#EF9A9A"
             },
             {
               "code": "10",
               "name": "coca Cola 0 edgar1 edgar2 edgar3 edgar4",
               "type": "product",
-              "urlImage": "/demo/images/cocaColaZero.png",
-              "backgroundColor": "red"
+              "urlImage": "",
+              "backgroundColor": "#EF9A9A"
             },
             {
               "code": "11",
               "name": "Fanta limón",
               "type": "product",
               "urlImage": "/demo/images/FantaLimon.png",
-              "backgroundColor": "red"
+              "backgroundColor": "#EF9A9A"
             },
             {
               "code": "12",
               "name": "Fanta naranja",
               "type": "product",
               "urlImage": "/demo/images/FantaNaranja.png",
-              "backgroundColor": "red"
+              "backgroundColor": "#EF9A9A"
             },
             {
               "code": "13",
-              "name": "Redbull",
+              "name": "Red bull",
               "type": "product",
               "urlImage": "/demo/images/redBull.png",
-              "backgroundColor": "red"
+              "backgroundColor": "#EF9A9A"
             }
           ]
         }
@@ -148,161 +148,161 @@
           "name": "Berlina",
           "type": "product",
           "urlImage": "/demo/images/berlina.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "18",
             "name": "Berlina chocolate",
             "type": "product",
             "urlImage": "/demo/images/berlinas.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "19",
             "name": "Bollo",
             "type": "product",
             "urlImage": "/demo/images/bollo.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "20",
             "name": "Caña chocolate",
             "type": "product",
             "urlImage": "/demo/images/cañaChocolate.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "21",
           "name": "Caña crema",
           "type": "product",
           "urlImage": "/demo/images/cañaCrema.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "22",
             "name": "Galletas",
             "type": "product",
             "urlImage": "/demo/images/cookies.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "23",
             "name": "Cortado a máquina",
             "type": "product",
             "urlImage": "/demo/images/cortadoMaquina.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "24",
             "name": "Croissant",
             "type": "product",
             "urlImage": "/demo/images/croissant.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "25",
           "name": "Croissant chocolate",
           "type": "product",
           "urlImage": "/demo/images/croissantChocolate.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "26",
             "name": "Croissant mantequilla",
             "type": "product",
             "urlImage": "/demo/images/cuernos.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "27",
             "name": "Croissant puntas chocolate",
             "type": "product",
             "urlImage": "/demo/images/cuernosChocolate.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "28",
             "name": "Magdalena chcolate",
             "type": "product",
             "urlImage": "/demo/images/madalenaChoco.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "29",
           "name": "Ensaimada",
           "type": "product",
           "urlImage": "/demo/images/ensaimada.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "30",
             "name": "Ensaimada chocolate",
             "type": "product",
             "urlImage": "/demo/images/ensaimadaRellena.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "31",
             "name": "Lazo",
             "type": "product",
             "urlImage": "/demo/images/lazo.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "32",
             "name": "Magdalena",
             "type": "product",
             "urlImage": "/demo/images/madalena.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "33",
             "name": "Napolitana chocolate",
             "type": "product",
             "urlImage": "/demo/images/napolitanaCacao.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "34",
             "name": "Napolitana 2 chocolates",
             "type": "product",
             "urlImage": "/demo/images/napolitanaChocolate.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "35",
             "name": "Napolitana Crema",
             "type": "product",
             "urlImage": "/demo/images/napolitanaCrema.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "36",
             "name": "Napolitana salada",
             "type": "product",
             "urlImage": "/demo/images/napolitanaSalada.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "37",
             "name": "Palmera crema",
             "type": "product",
             "urlImage": "/demo/images/palmeraCrema.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "38",
-            "name": "Pan redondo",
+            "name": "Pan #redondo",
             "type": "product",
             "urlImage": "/demo/images/panRedondo.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "40",
             "name": "Roscos",
             "type": "product",
             "urlImage": "/demo/images/roscos.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         }
 
       ]
@@ -319,14 +319,14 @@
           "name": "Ensalada lazos",
           "type": "product",
           "urlImage": "/demo/images/ensaladaLazos.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "42",
             "name": "Fideos chinos",
             "type": "product",
             "urlImage": "/demo/images/fideosChinos.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "43",
@@ -340,21 +340,21 @@
             "name": "Macarrones carbonara",
             "type": "product",
             "urlImage": "/demo/images/macarronesCarbonara.png",
-            "backgroundColor": "red"
+            "backgroundColor": "#EF9A9A"
         },
         {
           "code": "45",
           "name": "Macarrones Pesto",
           "type": "product",
           "urlImage": "/demo/images/macarronesPesto.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "46",
             "name": "Spaghettis con albondigas",
             "type": "product",
             "urlImage": "/demo/images/spaghettisAlbondigas.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         },
         {
           "code": "47",
@@ -377,14 +377,14 @@
           "name": "Polo naranja",
           "type": "product",
           "urlImage": "/demo/images/poloNaranja.png",
-          "backgroundColor": "blue"
+          "backgroundColor": "#90CAF9"
         },
         {
           "code": "42",
             "name": "Cono nata",
             "type": "product",
             "urlImage": "/demo/images/conoMaquina.png",
-            "backgroundColor": "blue"
+            "backgroundColor": "#90CAF9"
         }
       ]
     },
@@ -421,7 +421,30 @@
           "name": "prueba",
           "type": "product",
           "urlImage": "",
-          "backgroundColor": "red"
+          "backgroundColor": "#EF9A9A"
+        }
+      ]
+    },
+    {
+      "code": "",
+      "name": "Postres",
+      "type": "folder",
+      "urlImage": "",
+      "backgroundColor": "orange",
+      "content": [
+        {
+          "code": "14",
+          "name": "Arroz con leche",
+          "type": "product",
+          "urlImage": "/demo/images/arrozLeche.png",
+          "backgroundColor": "orange"
+        },
+        {
+          "code": "15",
+            "name": "Crema catalana",
+            "type": "product",
+            "urlImage": "/demo/images/cremaCatalana.png",
+            "backgroundColor": "orange"
         }
       ]
     }

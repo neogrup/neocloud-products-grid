@@ -1,11 +1,14 @@
 {
   "en":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendar"
+    "PRODUCTS_GRID_PAGE": "Page",
+    "PRODUCTS_GRID_BREADCRUMB_ALL": "All"
   },
   "es": {
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendario"
+    "PRODUCTS_GRID_PAGE": "Página",
+    "PRODUCTS_GRID_BREADCRUMB_ALL": "Todos"
   },
   "ca":{
-    "DASHBOARD_DATEPICKER_CALENDAR": "Calendari"
+    "PRODUCTS_GRID_PAGE": "Pàgina",
+    "PRODUCTS_GRID_BREADCRUMB_ALL": "Tots"
   }
 }

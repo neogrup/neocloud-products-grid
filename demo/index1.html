@@ -20,16 +20,52 @@ Copyright (c) 2017 Neo
 
   <link rel="import" href="../neocloud-products-grid.html">
 
-
+  <style>
+    body{
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', 'Noto', sans-serif;
+    }
+  </style>
 
 </head>
 <body unresolved>
   <dom-module id="neocloud-products-grid-demo">
   <template>
     <style>
+      /*@media only screen and (min-width: 318px) {*/
+        /*.container{*/
+          /*!*background-color: red;*!*/
+          /*height: 106px;*/
+          /*width: 318px;*/
+        /*}*/
+      /*}*/
+      /*@media only screen and (min-width: 530px) {*/
+        /*.container{*/
+          /*!*background-color: blue;*!*/
+          /*height: 212px;*/
+          /*width: 530px;*/
+        /*}*/
+      /*}*/
+
+
       .container{
-        height: 300px;
         background-color: #0b97c4;
+        /* 1 x 3 */
+        /*height: 106px;*/
+        /*width: 318px;*/
+
+        /* 3 x 3*/
+        height: 318px;
+        width: 318px;
+
+        /* 2 x 5*/
+        /*height: 212px;*/
+        /*width: 530px;*/
+
+        height: 212px;
+        width: 530px;
+
       }
     </style>
 
@@ -46,7 +82,9 @@ Copyright (c) 2017 Neo
       <neocloud-products-grid
               data="[[dataProductsList.data]]"
               url-translate="/demo/data/translations.json"
-              language="es">
+              language="es"
+              _breadcrumb
+              dimension="100">
       </neocloud-products-grid>
     </div>
 
@@ -58,7 +96,17 @@ Copyright (c) 2017 Neo
     </script>
   </dom-module>
   <neocloud-products-grid-demo></neocloud-products-grid-demo>
+<script>
+  window.addEventListener("load", function() {
+    var pixelRatio = window.devicePixelRatio;
+    if (pixelRatio) {
+      console.log('pixelRatio: ' + pixelRatio);
+    } else {
+      console.log("API not available");
+    }
 
+  });
+</script>
 
 
     <script id="__bs_script__">//<![CDATA[
