@@ -68,7 +68,7 @@ Copyright (c) 2017 Neo
         <template is="dom-repeat" items="[[breadcrumbList]]">
           <li ><span on-tap="_selectFolder">[[item.name]]</span></li>
         </template>
-        <li>{{localize('PRODUCTS_GRID_PAGE')}} [[currentLevelPageBreadcrumb]] / [[currentLevelTotalPages]]</li>
+        <li>[[currentLevelPageBreadcrumb]] / [[currentLevelTotalPages]]</li>
       </ul>
     </template>
 
@@ -154,7 +154,7 @@ Copyright (c) 2017 Neo
           value: {
             backgroundColor: "pink",
             code: "",
-            name: "...",
+            name: "..",
             type: "parentFolder",
             urlImage: ""
           }
