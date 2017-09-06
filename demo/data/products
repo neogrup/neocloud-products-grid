@@ -138,6 +138,41 @@
 
     {
       "code": "",
+      "name": "Nivel 1",
+      "type": "folder",
+      "urlImage": "",
+      "backgroundColor": "",
+      "content": [
+        {
+          "code": "",
+          "name": "Nivel 2",
+          "type": "folder",
+          "urlImage": "",
+          "backgroundColor": "yellow",
+          "content": [
+            {
+              "code": "",
+              "name": "Nivel 3",
+              "type": "folder",
+              "urlImage": "",
+              "backgroundColor": "yellow",
+              "content": [
+                {
+                  "code": "5",
+                  "name": "FontVella",
+                  "type": "product",
+                  "urlImage": "/demo/images/botellaFontVella.png",
+                  "backgroundColor": "green"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "code": "",
       "name": "Panadería",
       "type": "folder",
       "urlImage": "",

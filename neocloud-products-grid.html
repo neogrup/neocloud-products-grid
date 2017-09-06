@@ -184,6 +184,10 @@ Copyright (c) 2017 Neo
           value: false,
 //          observer: '_changeBreadcrumbVisibility'
         },
+        autoFlow: {
+          type: Boolean,
+          value: false
+        },
         breadcrumbList: {
           type: Array,
           value: [],
@@ -232,11 +236,14 @@ Copyright (c) 2017 Neo
       _setCurrentLevelTotalPages: function(){
         if (this.levels[this.currentLevel]) {
           if (this.limitProductsPerLevel != 0)
+
             if (this.levels[this.currentLevel].length % (this.limitProductsPerLevel - 2) > 1) {
               this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2)) + 1;
             } else {
               this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2));
             }
+            if (this.currentLevelTotalPages == 0 )
+              this.currentLevelTotalPages = 1;
         } else {
           this.currentLevelTotalPages = 1;
         }
@@ -320,6 +327,14 @@ Copyright (c) 2017 Neo
 
         this.pop('breadcrumbList');
 
+        if (this.autoFlow) {
+          if (this.level.length <= 2) { //parent folder & and the folder itself
+            if (this.level[1].type == "folder") {
+              this._parentFolderSelected();
+            }
+          }
+        }
+
       },
 
       _nextButtonPressed: function(){
@@ -371,7 +386,7 @@ Copyright (c) 2017 Neo
         }
       },
 
-      _folderSelected: function(item){
+      _folderSelected: function(item) {
         this.currentLevel++;
         this.currentLevelPage = 0;
 
@@ -388,19 +403,25 @@ Copyright (c) 2017 Neo
           this.levelIndexTo = this.levels[this.currentLevel].length - 1;
         }
 
-        this._setPage(showPreviousButton, showParentFolder, showNextButton, this.levelIndexFrom, this.levelIndexTo );
+        this._setPage(showPreviousButton, showParentFolder, showNextButton, this.levelIndexFrom, this.levelIndexTo);
 
-        if (this.breadcrumbList){
-          this.push ('breadcrumbList', {
+        if (this.breadcrumbList) {
+          this.push('breadcrumbList', {
             level: this.currentLevel,
             name: item.detail.name
           });
         }
-//        console.log(this.breadcrumbList);
+
+        if (this.autoFlow) {
+          if (this.level.length <= 2) { //parent folder & and the folder itself
+            if (this.level[1].type == "folder") {
+              this._folderSelected({detail:this.level[1]});
+            }
+          }
+        }
       },
 
       _productSelected: function(item){}
-
 
     });
 
