@@ -211,7 +211,7 @@ Copyright (c) 2017 Neo
           case "product":
             this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
             this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
-            if (this.item.urlImage == ""){
+            if ((!this.item.urlImage) || (this.item.urlImage == "")){
               this.itemContentNameClassName = 'itemContentNameCenter'
             } else{
               this.itemContentNameClassName = 'itemContentName'

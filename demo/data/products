@@ -63,8 +63,8 @@
               "code": "5",
               "name": "FontVella",
               "type": "product",
-              "urlImage": "/demo/images/botellaFontVella.png",
-              "backgroundColor": "green"
+              "1urlImage": "/demo/images/botellaFontVella.png",
+              "1backgroundColor": "green"
             },
             {
               "code": "6",
