@@ -234,18 +234,20 @@ Copyright (c) 2017 Neo
       },
 
       _setCurrentLevelTotalPages: function(){
-        if (this.levels[this.currentLevel]) {
-          if (this.limitProductsPerLevel != 0)
+        if (this.levels) {
+          if (this.levels[this.currentLevel]) {
+            if (this.limitProductsPerLevel != 0)
 
-            if (this.levels[this.currentLevel].length % (this.limitProductsPerLevel - 2) > 1) {
-              this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2)) + 1;
-            } else {
-              this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2));
-            }
-            if (this.currentLevelTotalPages == 0 )
-              this.currentLevelTotalPages = 1;
-        } else {
-          this.currentLevelTotalPages = 1;
+              if (this.levels[this.currentLevel].length % (this.limitProductsPerLevel - 2) > 1) {
+                this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2)) + 1;
+              } else {
+                this.currentLevelTotalPages = Math.trunc(this.levels[this.currentLevel].length / (this.limitProductsPerLevel - 2));
+              }
+              if (this.currentLevelTotalPages == 0 )
+                this.currentLevelTotalPages = 1;
+          } else {
+            this.currentLevelTotalPages = 1;
+          }
         }
       },
 
