@@ -1,0 +1,118 @@
+{
+  "apiVersion": "",
+  "data":[
+        {
+            "code" : "4",
+            "name" : "OBRADOR",
+            "type" : "folder",
+            "content" : [
+                {
+                    "type" : "folder",
+                    "content" : [
+                        {
+                            "code" : "40500",
+                            "name" : "PASTELES",
+                            "type" : "folder",
+                            "content" : [
+                                {
+                                    "price" : 1.38,
+                                    "format" : {
+                                        "name" : "Caja de 12",
+                                        "factor" : 12.0,
+                                        "code" : "C12"
+                                    },
+                                    "code" : "000000672",
+                                    "name" : "FERRERO",
+                                    "type" : "product"
+                                },
+                                {
+                                    "code" : "000000673",
+                                    "name" : "OREO",
+                                    "type" : "product",
+                                    "price" : 9.0,
+                                    "format" : {
+                                        "factor" : 4.0,
+                                        "code" : "C4",
+                                        "name" : "Caja de 4"
+                                    }
+                                },
+                                {
+                                    "price" : 0.55,
+                                    "code" : "000000782",
+                                    "name" : "PIONONOS",
+                                    "type" : "product"
+                                },
+                                {
+                                    "name" : "BROWNIE",
+                                    "type" : "product",
+                                    "price" : 1.01,
+                                    "code" : "000000783"
+                                },
+                                {
+                                    "type" : "product",
+                                    "price" : 1.38,
+                                    "format" : {
+                                        "code" : "C12",
+                                        "name" : "Caja de 12",
+                                        "factor" : 12.0
+                                    },
+                                    "code" : "000000786",
+                                    "name" : "PINGUINO"
+                                },
+                                {
+                                    "code" : "000000998",
+                                    "name" : "PASTEL SAN MARCOS",
+                                    "type" : "product",
+                                    "price" : 1.01,
+                                    "format" : {
+                                        "name" : "Caja de 16",
+                                        "factor" : 16.0,
+                                        "code" : "C16"
+                                    }
+                                },
+                                {
+                                    "code" : "000000999",
+                                    "name" : "TRES CHOCOS",
+                                    "type" : "product",
+                                    "price" : 1.01
+                                },
+                                {
+                                    "type" : "product",
+                                    "price" : 1.01,
+                                    "format" : {
+                                        "code" : "C16",
+                                        "name" : "Caja de 16",
+                                        "factor" : 16.0
+                                    },
+                                    "code" : "000001000",
+                                    "name" : "QUESO FRAMBUE"
+                                },
+                                {
+                                    "code" : "000001001",
+                                    "name" : "COCONUT",
+                                    "type" : "product",
+                                    "price" : 1.38,
+                                    "format" : {
+                                        "name" : "Caja de 12",
+                                        "factor" : 12.0,
+                                        "code" : "C12"
+                                    }
+                                },
+                                {
+                                    "type" : "product",
+                                    "price" : 0.5,
+                                    "code" : "000001141",
+                                    "name" : "PIONONOS TRADICIONAL"
+                                }
+                            ]
+                        }
+                    ],
+                    "code" : "405",
+                    "name" : "PASTELERIA"
+                }
+            ]
+        }
+    ]
+,
+  "error": null
+}

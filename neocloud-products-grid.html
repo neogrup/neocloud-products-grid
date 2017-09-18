@@ -283,6 +283,16 @@ Copyright (c) 2017 Neo
           });
         }
 
+        if (this.autoFlow) {
+          if (this.currentLevel==0) {
+            if (this.level.length == 1) {
+              if (this.level[0].type == "folder") {
+                this._folderSelected({detail:this.level[0]});
+              }
+            }
+          }
+        }
+
       },
 
       _setPage: function (_showPrevious, _showParent, _showNext, _from, _to) {
@@ -335,8 +345,10 @@ Copyright (c) 2017 Neo
 
         if (this.autoFlow) {
           if (this.level.length <= 2) { //parent folder & and the folder itself
-            if (this.level[1].type == "folder") {
-              this._parentFolderSelected();
+            if (this.level[0].type == "parentFolder") {
+              if (this.level[1].type == "folder") {
+                this._parentFolderSelected();
+              }
             }
           }
         }
@@ -420,7 +432,7 @@ Copyright (c) 2017 Neo
 
         if (this.autoFlow) {
           if (this.level.length <= 2) { //parent folder & and the folder itself
-            if (this.level[1].type == "folder") {
+            if (this.level[1].type == "folder") { // 1 'cause 0 is parent
               this._folderSelected({detail:this.level[1]});
             }
           }
