@@ -1,6 +1,6 @@
 {
   "name": "neocloud-products-grid",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Polymer component to display the products (family, sub-family, etc.) in a grid in tree structure",
   "authors": [
     "edgar.piera@neogrup.com"
