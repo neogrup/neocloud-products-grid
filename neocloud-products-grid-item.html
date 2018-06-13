@@ -3,20 +3,21 @@
 Copyright (c) 2017 Neo
 -->
 
-<link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
 <link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../iron-list/iron-list.html">
 <link rel="import" href="../paper-ripple/paper-ripple.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-image/iron-image.html">
 <link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 
 <dom-module id="neocloud-products-grid-item">
   <template>
     <style>
       :host{
-        --item-content-background-image: url("/demo/images/producto-default.jpg");
+        /* --item-content-background-image: url("/demo/images/producto-default.jpg"); */
         --item-content-background-color: "#00FF00";
         --item-content-width: 100px;
         --item-content-height: 100px;
@@ -166,51 +167,56 @@ Copyright (c) 2017 Neo
   </template>
 
   <script>
-    Polymer({
-      is: 'neocloud-products-grid-item',
-
-      behaviors: [
-        Polymer.AppLocalizeBehavior
-      ],
-
-      properties: {
-        dimension: {
-          type: Number,
-          value: 100,
-          reflectToAttribute: true,
-          observer: '_dimensionChanged'
-        },
-        item: {
-          type: Object,
-          value: {
-            code: "",
-            name: "",
-            type: "",
-            urlImage: "",
-            bgColor: "red"
+    class NeocloudProductsGridItem extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+      static get is() {
+        return 'neocloud-products-grid-item';
+      }
+      
+      static get properties() {
+        return {
+          dimension: {
+            type: Number,
+            value: 100,
+            reflectToAttribute: true,
+            observer: '_dimensionChanged'
           },
-          observer: '_itemChanged'
-        },
-        itemContentNameClassName: {
-          type: String,
-          value: 'itemContentName'
+          item: {
+            type: Object,
+            value: {
+              code: "",
+              name: "",
+              type: "",
+              urlImage: "",
+              bgColor: "red"
+            },
+            observer: '_itemChanged'
+          },
+          itemContentNameClassName: {
+            type: String,
+            value: 'itemContentName'
+          }
         }
-      },
+      }
 
-      _dimensionChanged: function(){
-        this.customStyle['--item-content-width'] = this.dimension + 'px';
-        this.customStyle['--item-content-height'] = this.dimension + 'px';
-        this.updateStyles();
-      },
 
-      _itemChanged: function(){
+      _dimensionChanged(){
+        this.updateStyles({'--item-content-width':   this.dimension + 'px' });
+        this.updateStyles({'--item-content-height':   this.dimension + 'px' });
+      }
+
+      _itemChanged(){
         switch (this.item.type) {
           case "folder":
             this.itemContentNameClassName = 'itemContentNameCenter'
             break;
           case "product":
-            this.customStyle['--item-content-background-image'] =  'url(' +  this.item.urlImage + ')' ;
-            this.customStyle['--item-content-background-color'] =  this.item.backgroundColor ;
+            if (this.item.urlImage){
+              this.updateStyles({'--item-content-background-image':   'url(' +  this.item.urlImage + ')' });
+            }
+            if (this.item.backgroundColor){
+              this.updateStyles({'--item-content-background-color':   this.item.backgroundColor });
+            }
+
             if ((!this.item.urlImage) || (this.item.urlImage == "")){
               this.itemContentNameClassName = 'itemContentNameCenter'
             } else{
@@ -220,38 +226,32 @@ Copyright (c) 2017 Neo
           default:
             break;
         }
+      }
 
-//        var itemName = this.item.name.split(" ")
-
-        this.updateStyles();
-
-      },
-
-      _selectItem: function() {
+      _selectItem() {
         switch (this.item.type) {
           case "parentFolder":
-            this.fire('parent-folder-selected');
+            this.dispatchEvent(new CustomEvent('parent-folder-selected', {bubbles: true, composed: true }));
             break;
           case "nextButton":
-            this.fire('next-button-pressed');
+            this.dispatchEvent(new CustomEvent('next-button-pressed', {bubbles: true, composed: true }));
             break;
           case "previousButton":
-            this.fire('previous-button-pressed');
+            this.dispatchEvent(new CustomEvent('previous-button-pressed', {bubbles: true, composed: true }));
             break;
           case "folder":
-            this.fire('folder-selected', this.item);
+            this.dispatchEvent(new CustomEvent('folder-selected', {detail: this.item, bubbles: true, composed: true }));
             break;
           default:
-            this.fire('product-selected', this.item);
+            this.dispatchEvent(new CustomEvent('product-selected', {detail: this.item, bubbles: true, composed: true }));
             break;
         }
-      },
+      }
 
-      _checkType: function(type, itemType){
+      _checkType(type, itemType){
         return (type==itemType);
       }
-    });
-
-
+    }
+    window.customElements.define(NeocloudProductsGridItem.is, NeocloudProductsGridItem);
   </script>
 </dom-module>
