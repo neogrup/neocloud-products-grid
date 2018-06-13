@@ -27,7 +27,7 @@
     "paper-ripple": "PolymerElements/paper-ripple#^2.1.1",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.2",
     "paper-fab": "PolymerElements/paper-fab#^2.0.0",
-    "iron-image": "PolymerElements/iron-image#^2.2.1",
+    "iron-image": "PolymerElements/iron-image#^2.2.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
