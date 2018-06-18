@@ -204,7 +204,6 @@ Copyright (c) 2017 Neo
         super.connectedCallback();
         this.useKeyIfMissing = true;
         this.loadResources(this.resolveUrl('static/translations.json'));
-        this.gridResize();
       }
 
       _dimensionChanged(){
@@ -221,8 +220,6 @@ Copyright (c) 2017 Neo
           
           let rows = Math.trunc(h / (this.dimension + 4));
           this.limitProductsPerLevel = cols*rows;
-
-          this.shadowRoot.querySelector('iron-list').dispatchEvent(new CustomEvent('iron-resize', {bubbles: true, composed: true }));
         } else {
           this.limitProductsPerLevel = 0;
         }
