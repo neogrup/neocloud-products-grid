@@ -3,7 +3,8 @@
 Copyright (c) 2017 Neo
 -->
 
-<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../app-localize-behavior/app-localize-behavior.html">
 <link rel="import" href="../iron-list/iron-list.html">
 
@@ -89,151 +90,146 @@ Copyright (c) 2017 Neo
   </template>
 
   <script>
-    Polymer({
-      is: 'neocloud-products-grid',
-
-      behaviors: [
-        Polymer.AppLocalizeBehavior
-      ],
-
-      properties: {
-        data: {
-          type: Object,
-          value: [],
-          observer: '_dataChanged'
-        },
-        language: String,
-        dimension: {
-          type: Number,
-          value: 100,
-          observer: '_dimensionChanged',
-          reflectToAttribute: true
-        },
-        /**
-         * All folder and products
-         */
-        levels: {
-          type: Array,
-          value: []
-        },
-        level: {
-          type: Array,
-          value: [],
-          observer: '_setCurrentLevelTotalPages'
-        },
-        currentLevel: {
-          type: Number,
-          value: 0
-        },
-        levelIndexFrom: {
-          type: Number,
-          value: 0
-        },
-        levelIndexTo: {
-          type: Number,
-          value: 0
-        },
-        currentLevelPage: {
-          type: Number,
-          value: 0
-        },
-        currentLevelPageBreadcrumb: {
-          type: Number,
-          computed: '_computeCurrentLevelPageBreadcrumb(currentLevelPage)'
-        },
-        currentLevelTotalPages: {
-          type: Number,
-          value: 0
-        },
-        limitProductsPerLevel: {
-          type: Number,
-          value: 0
-        },
-        parentFolder: {
-          type: Object,
-          value: {
-            backgroundColor: "pink",
-            code: "",
-            name: "..",
-            type: "parentFolder",
-            urlImage: ""
+    class NeocloudProductsGrid extends Polymer.mixinBehaviors([Polymer.AppLocalizeBehavior], Polymer.Element) {
+      static get is() {
+        return 'neocloud-products-grid';
+      }
+      
+      static get properties() {
+        return {
+          data: {
+            type: Object,
+            value: [],
+            observer: '_dataChanged'
+          },
+          language: String,
+          dimension: {
+            type: Number,
+            value: 100,
+            observer: '_dimensionChanged',
+            reflectToAttribute: true
+          },
+          /**
+          * All folder and products
+          */
+          levels: {
+            type: Array,
+            value: []
+          },
+          level: {
+            type: Array,
+            value: [],
+            observer: '_setCurrentLevelTotalPages'
+          },
+          currentLevel: {
+            type: Number,
+            value: 0
+          },
+          levelIndexFrom: {
+            type: Number,
+            value: 0
+          },
+          levelIndexTo: {
+            type: Number,
+            value: 0
+          },
+          currentLevelPage: {
+            type: Number,
+            value: 0
+          },
+          currentLevelPageBreadcrumb: {
+            type: Number,
+            computed: '_computeCurrentLevelPageBreadcrumb(currentLevelPage)'
+          },
+          currentLevelTotalPages: {
+            type: Number,
+            value: 0
+          },
+          limitProductsPerLevel: {
+            type: Number,
+            value: 0
+          },
+          parentFolder: {
+            type: Object,
+            value: {
+              backgroundColor: "pink",
+              code: "",
+              name: "..",
+              type: "parentFolder",
+              urlImage: ""
+            }
+          },
+          nextButton: {
+            type: Object,
+            value: {
+              backgroundColor: "yellow",
+              code: "",
+              name: "Siguiente",
+              type: "nextButton",
+              urlImage: ""
+            }
+          },
+          previousButton: {
+            type: Object,
+            value: {
+              backgroundColor: "yellow",
+              code: "",
+              name: "Anterior",
+              type: "previousButton",
+              urlImage: ""
+            }
+          },
+          breadcrumb: {
+            type: Boolean,
+            value: false,
+  //          observer: '_changeBreadcrumbVisibility'
+          },
+          autoFlow: {
+            type: Boolean,
+            value: false
+          },
+          breadcrumbList: {
+            type: Array,
+            value: [],
+            notify: true
+          },
+          isPaginated: {
+            type: Boolean,
+            value: false
           }
-        },
-        nextButton: {
-          type: Object,
-          value: {
-            backgroundColor: "yellow",
-            code: "",
-            name: "Siguiente",
-            type: "nextButton",
-            urlImage: ""
-          }
-        },
-        previousButton: {
-          type: Object,
-          value: {
-            backgroundColor: "yellow",
-            code: "",
-            name: "Anterior",
-            type: "previousButton",
-            urlImage: ""
-          }
-        },
-        breadcrumb: {
-          type: Boolean,
-          value: false,
-//          observer: '_changeBreadcrumbVisibility'
-        },
-        autoFlow: {
-          type: Boolean,
-          value: false
-        },
-        breadcrumbList: {
-          type: Array,
-          value: [],
-          notify: true
-        },
-        isPaginated: {
-          type: Boolean,
-          value: false
         }
-      },
+      }
 
-      ready: function() {
+      connectedCallback() {
+        super.connectedCallback();
         this.useKeyIfMissing = true;
         this.loadResources(this.resolveUrl('static/translations.json'));
-      },
+      }
 
-      attached: function() {
+      _dimensionChanged(){
         this.gridResize();
-      },
+      }
 
-      _dimensionChanged: function(){
-        this.gridResize();
-      },
-
-      gridResize: function(){
+      gridResize(){
         if (this.isPaginated) {
-          var h = this.offsetHeight;
-//          console.log('width '+this.offsetWidth+' height '+this.offsetHeight+ ' dimension '+this.dimension);
-          var cols = Math.trunc(this.offsetWidth / (this.dimension + 8));
+          let h = this.offsetHeight;
+          let cols = Math.trunc(this.offsetWidth / (this.dimension + 8));
           if (this.breadcrumb){
             h = h - 28;
           }
-          var rows = Math.trunc(h / (this.dimension + 4));
+          
+          let rows = Math.trunc(h / (this.dimension + 4));
           this.limitProductsPerLevel = cols*rows;
-          this.$$('iron-list').fire('iron-resize');
         } else {
           this.limitProductsPerLevel = 0;
         }
+      }
 
-      },
-
-      _computeCurrentLevelPageBreadcrumb: function(currentLevelPage){
+      _computeCurrentLevelPageBreadcrumb(currentLevelPage){
         return currentLevelPage + 1
-      },
+      }
 
-      _setCurrentLevelTotalPages: function(){
+      _setCurrentLevelTotalPages(){
         if (this.levels) {
           if (this.levels[this.currentLevel]) {
             if (this.limitProductsPerLevel != 0)
@@ -249,9 +245,9 @@ Copyright (c) 2017 Neo
             this.currentLevelTotalPages = 1;
           }
         }
-      },
+      }
 
-      _dataChanged: function(){
+      _dataChanged(){
         /* TODO: Calculate limitProductsPerLevel */
         this.currentLevel = 0;
         this.currentLevelPage = 0;
@@ -259,9 +255,9 @@ Copyright (c) 2017 Neo
         this.level = [];
         this.levels = [];
 
-        var showNextButton = false;
-        var showParentFolder = false;
-        var showPreviousButton = false;
+        let showNextButton = false;
+        let showParentFolder = false;
+        let showPreviousButton = false;
 
         if (this.data) {
           if (this.data.length > 0){
@@ -292,10 +288,9 @@ Copyright (c) 2017 Neo
             }
           }
         }
+      }
 
-      },
-
-      _setPage: function (_showPrevious, _showParent, _showNext, _from, _to) {
+      _setPage(_showPrevious, _showParent, _showNext, _from, _to) {
         //console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+_from+' - '+_to);
 
         if (this.limitProductsPerLevel != 0 ) {
@@ -315,18 +310,18 @@ Copyright (c) 2017 Neo
             this.level.unshift(this.parentFolder);
           }
         }
-        this.$$('iron-list').items = this.level;
-      },
+        this.shadowRoot.querySelector('iron-list').items = this.level;
+      }
 
-      _parentFolderSelected: function(){
+      _parentFolderSelected(){
         this.currentLevel--;
         this.currentLevelPage = 0;
         this.levelIndexFrom = 0;
         // Remove the last element of an array:
         this.levels.pop();
-        var showNextButton = false;
-        var showParentFolder = false;
-        var showPreviousButton = false;
+        let showNextButton = false;
+        let showParentFolder = false;
+        let showPreviousButton = false;
 
         if (this.currentLevel > 0){
           showParentFolder = true;
@@ -352,15 +347,14 @@ Copyright (c) 2017 Neo
             }
           }
         }
+      }
 
-      },
-
-      _nextButtonPressed: function(){
+      _nextButtonPressed(){
         this.currentLevelPage++;
         this.levelIndexFrom = this.levelIndexTo + 1;
-        var showNextButton = false;
-        var showParentFolder = false;
-        var showPreviousButton = true;
+        let showNextButton = false;
+        let showParentFolder = false;
+        let showPreviousButton = true;
 
         if ( this.levels[this.currentLevel].length - this.levelIndexFrom <= this.limitProductsPerLevel - 1){ //-1 del previous //ulyima página
           this.levelIndexTo = this.levels[this.currentLevel].length - 1;
@@ -370,14 +364,14 @@ Copyright (c) 2017 Neo
         }
 
         this._setPage(showPreviousButton, showParentFolder, showNextButton, this.levelIndexFrom, this.levelIndexTo );
-      },
+      }
 
-      _previousButtonPressed: function(){
+      _previousButtonPressed(){
         this.currentLevelPage--;
         this.levelIndexTo = this.levelIndexFrom - 1;
-        var showNextButton = true;
-        var showParentFolder = false;
-        var showPreviousButton = false;
+        let showNextButton = true;
+        let showParentFolder = false;
+        let showPreviousButton = false;
 
         if (this.currentLevelPage>0){
           showPreviousButton = true;
@@ -395,25 +389,25 @@ Copyright (c) 2017 Neo
         }
 
         this._setPage(showPreviousButton, showParentFolder, showNextButton, this.levelIndexFrom, this.levelIndexTo )
-      },
+      }
 
-      _selectFolder: function (item) {
-        var item = item.model.__data__.item;
-        for (var i=this.currentLevel; i>item.level; i--) {
+      _selectFolder (item) {
+        let itemSelected = item.model.__data.item;
+        for (let i=this.currentLevel; i>itemSelected.level; i--) {
           this._parentFolderSelected();
         }
-      },
+      }
 
-      _folderSelected: function(item) {
+      _folderSelected(item) {
         this.currentLevel++;
         this.currentLevelPage = 0;
 
         this.levelIndexFrom = 0;
         this.levels.push(item.detail.content);
 
-        var showParentFolder = true;
-        var showPreviousButton = false;
-        var showNextButton = this.levels[this.currentLevel].length > this.limitProductsPerLevel - 1;
+        let showParentFolder = true;
+        let showPreviousButton = false;
+        let showNextButton = this.levels[this.currentLevel].length > this.limitProductsPerLevel - 1;
 
         if (showNextButton) {
           this.levelIndexTo = this.limitProductsPerLevel - 1 - 1 - 1; //-1 de 0 based --1 paremnt folder -1 next
@@ -437,11 +431,12 @@ Copyright (c) 2017 Neo
             }
           }
         }
-      },
+      }
 
-      _productSelected: function(item){}
+      _productSelected(item){}
 
-    });
+    }
+    window.customElements.define(NeocloudProductsGrid.is, NeocloudProductsGrid);
 
 
   </script>
