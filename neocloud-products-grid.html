@@ -152,7 +152,7 @@ Copyright (c) 2017 Neo
           parentFolder: {
             type: Object,
             value: {
-              backgroundColor: "pink",
+              backgroundColor: "",
               code: "",
               name: "..",
               type: "parentFolder",
@@ -162,7 +162,7 @@ Copyright (c) 2017 Neo
           nextButton: {
             type: Object,
             value: {
-              backgroundColor: "yellow",
+              backgroundColor: "",
               code: "",
               name: "Siguiente",
               type: "nextButton",
@@ -172,7 +172,7 @@ Copyright (c) 2017 Neo
           previousButton: {
             type: Object,
             value: {
-              backgroundColor: "yellow",
+              backgroundColor: "",
               code: "",
               name: "Anterior",
               type: "previousButton",
@@ -213,13 +213,15 @@ Copyright (c) 2017 Neo
       gridResize(){
         if (this.isPaginated) {
           let h = this.offsetHeight;
-          let cols = Math.trunc(this.offsetWidth / (this.dimension + 8));
+          let cols = Math.trunc(this.offsetWidth / (this.dimension + 6)); /* 6: 2px left margin +  2px right margin + 1px left border + 1px right border */
+
           if (this.breadcrumb){
             h = h - 28;
           }
           
-          let rows = Math.trunc(h / (this.dimension + 4));
+          let rows = Math.trunc(h / (this.dimension + 6)); /* 6: 2px top margin +  2px bottom margin + 1px top border + 1px bottom border */
           this.limitProductsPerLevel = cols*rows;
+
         } else {
           this.limitProductsPerLevel = 0;
         }
@@ -249,6 +251,7 @@ Copyright (c) 2017 Neo
 
       _dataChanged(){
         /* TODO: Calculate limitProductsPerLevel */
+        
         this.currentLevel = 0;
         this.currentLevelPage = 0;
         this.levelIndexFrom = 0;
@@ -262,7 +265,7 @@ Copyright (c) 2017 Neo
         if (this.data) {
           if (this.data.length > 0){
             this.levels.push(this.data);
-            showNextButton = this.levels[this.currentLevel].length > this.limitProductsPerLevel;
+            showNextButton = this.levels[this.currentLevel].length > this.limitProductsPerLevel - 1;
             if (showNextButton) {
               this.levelIndexTo = this.levelIndexTo + this.limitProductsPerLevel - 1 - 1;
             } else{
@@ -291,8 +294,6 @@ Copyright (c) 2017 Neo
       }
 
       _setPage(_showPrevious, _showParent, _showNext, _from, _to) {
-        //console.log('level: ' + this.currentLevel + ' pageLevel: ' + this.currentLevelPage + ' Items: '+_from+' - '+_to);
-
         if (this.limitProductsPerLevel != 0 ) {
           this.level = this.levels[this.currentLevel].slice(this.levelIndexFrom, this.levelIndexTo + 1);
           if (_showPrevious) {
@@ -310,6 +311,7 @@ Copyright (c) 2017 Neo
             this.level.unshift(this.parentFolder);
           }
         }
+
         this.shadowRoot.querySelector('iron-list').items = this.level;
       }
 
@@ -323,6 +325,8 @@ Copyright (c) 2017 Neo
         let showParentFolder = false;
         let showPreviousButton = false;
 
+        
+
         if (this.currentLevel > 0){
           showParentFolder = true;
         }
@@ -330,6 +334,9 @@ Copyright (c) 2017 Neo
 
         if (showNextButton){
           this.levelIndexTo = this.levelIndexFrom + this.limitProductsPerLevel - 1 - 1;
+          if (this.currentLevel > 0) { 
+            this.levelIndexTo = this.levelIndexTo - 1;
+          }
         } else {
           this.levelIndexTo = this.levels[this.currentLevel].length - 1;
         }
@@ -410,7 +417,7 @@ Copyright (c) 2017 Neo
         let showNextButton = this.levels[this.currentLevel].length > this.limitProductsPerLevel - 1;
 
         if (showNextButton) {
-          this.levelIndexTo = this.limitProductsPerLevel - 1 - 1 - 1; //-1 de 0 based --1 paremnt folder -1 next
+          this.levelIndexTo = this.limitProductsPerLevel - 1 - 1 - 1; //-1 de 0 based -1 parent folder -1 next
         } else {
           this.levelIndexTo = this.levels[this.currentLevel].length - 1;
         }

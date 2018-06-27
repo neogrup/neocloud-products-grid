@@ -24,17 +24,6 @@ Copyright (c) 2017 Neo
       }
 
       .itemContent {
-        position: relative;
-
-        width: var(--item-content-width);
-        height: var(--item-content-height);
-
-        /*width: 100px;*/
-        /*height: 100px;*/
-        margin: 2px;
-        border: 1px solid #BDBDBD;
-        cursor: pointer;
-
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
         -khtml-user-select: none; /* Konqueror HTML */
@@ -43,13 +32,24 @@ Copyright (c) 2017 Neo
         user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
 
+        position: relative;
+
+        width: var(--item-content-width);
+        height: var(--item-content-height);
+
+        margin: 2px;
+        border: 1px solid #BDBDBD;
+        cursor: pointer;
+
+        
+
         background-repeat: no-repeat;
         background-size: cover;
       }
 
-      .itemContent > iron-image {
+      /* .itemContent > iron-image {
         @apply --layout-flex;
-      }
+      } */
 
       .itemContentName {
         min-height: 20px;
@@ -83,16 +83,6 @@ Copyright (c) 2017 Neo
         font-weight: 500;
       }
 
-      @media (max-width: 800px) {
-        .itemContainer {
-          width: calc(50% - 16px);
-        }
-      }
-      @media (max-width: 400px) {
-        .itemContainer {
-          width: 100%;
-        }
-      }
 
       .nextButton{
         background-color: transparent;
@@ -106,12 +96,12 @@ Copyright (c) 2017 Neo
 
       .parentFolder{
         background-image: url("static/folderOpen.png");
-        border: none;
+        border-color: transparent;
       }
 
       .folder{
         background-image: url("static/folderClosed.png");
-        border: none;
+        border-color: transparent;
       }
 
       .product{
