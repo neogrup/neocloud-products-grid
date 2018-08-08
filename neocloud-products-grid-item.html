@@ -17,8 +17,8 @@ Copyright (c) 2017 Neo
   <template>
     <style>
       :host{
-        /* --item-content-background-image: url("/demo/images/producto-default.jpg"); */
-        --item-content-background-color: "#00FF00";
+        --item-content-background-image: none;
+        --item-content-background-color: transparent;
         --item-content-width: 100px;
         --item-content-height: 100px;
       }
@@ -195,27 +195,33 @@ Copyright (c) 2017 Neo
       }
 
       _itemChanged(){
+        let itemContentBackgroundColor = 'transparent';
+        let itemContentBackgroundImage = 'none';
+
         switch (this.item.type) {
           case "folder":
-            this.itemContentNameClassName = 'itemContentNameCenter'
+            this.itemContentNameClassName = 'itemContentNameCenter';
             break;
           case "product":
             if (this.item.urlImage){
-              this.updateStyles({'--item-content-background-image':   'url(' +  this.item.urlImage + ')' });
+              itemContentBackgroundImage = 'url(' +  this.item.urlImage + ')';
             }
+
             if (this.item.backgroundColor){
-              this.updateStyles({'--item-content-background-color':   this.item.backgroundColor });
+              itemContentBackgroundColor = this.item.backgroundColor;
             }
 
             if ((!this.item.urlImage) || (this.item.urlImage == "")){
-              this.itemContentNameClassName = 'itemContentNameCenter'
+              this.itemContentNameClassName = 'itemContentNameCenter';
             } else{
-              this.itemContentNameClassName = 'itemContentName'
+              this.itemContentNameClassName = 'itemContentName';
             }
             break;
           default:
             break;
         }
+
+        this.updateStyles({'--item-content-background-color':   itemContentBackgroundColor, '--item-content-background-image': itemContentBackgroundImage});
       }
 
       _selectItem() {
